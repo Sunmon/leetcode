@@ -11,7 +11,10 @@ var searchInsert = function(nums, target) {
 var search = function(begin, end, nums, target) {
   const mid = Math.floor((begin+end)/2);
   if (nums[mid]===target) return mid;
-  if (begin >= end) return nums[mid] > target ? mid : mid +1;
+  
+  // NOTE: turn this code into below
+  // if (begin >= end) return nums[mid] > target ? mid : mid +1;
+  if (begin > end) return begin;  
   
   if (nums[mid] > target) {
     return search(begin, mid-1, nums, target);
