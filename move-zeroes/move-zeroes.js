@@ -3,15 +3,20 @@
  * @return {void} Do not return anything, modify nums in-place instead.
  */
 var moveZeroes = function(nums) {
-  let pivot = 0;
-  for(let i = 0; i<nums.length; i++){
-    if (nums[i]) {
-      nums[pivot++] = nums[i];
+  let left = 0, right = 0;
+  while(right < nums.length) {
+    if (nums[right]!==0){
+      if (left === right){
+        left++;
+        right++;
+        continue;
+      }
+      const temp = nums[right];
+      nums[right++] = nums[left];
+      nums[left++] = temp;
+    } else {
+      right++;
     }
-  }
-  
-  for(let i = pivot; i<nums.length; i++){
-    nums[i] = 0;
   }
   
   return nums;
