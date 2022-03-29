@@ -1,7 +1,8 @@
-/**
- * @param {number[]} nums
- * @return {boolean}
- */
 const containsDuplicate = function (nums) {
-  return new Set(nums).size < nums.length;
+  const _set = new Set();
+  for (let i = 0; i < nums.length; i++) {
+    if (_set.has(nums[i])) return true;
+    _set.add(nums[i]);
+  }
+  return false;
 };
