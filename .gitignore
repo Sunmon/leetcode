@@ -1,0 +1,10 @@
+.idea/*
+.out/*
+*.iml
+*.exe
+*.out
+*.o
+./.vscode/*
+.vs/*
+.vscode/*
+node_modules
