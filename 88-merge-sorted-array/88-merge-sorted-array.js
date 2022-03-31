@@ -31,5 +31,7 @@ const merge = function (nums1, m, nums2, n) {
       n -= 1;
     }
   }
-  nums1.splice(0, arr.length, ...arr);
+  for (let i = 0; i < nums1.length; i++) {
+    nums1[i] = arr[i];
+  }
 };
