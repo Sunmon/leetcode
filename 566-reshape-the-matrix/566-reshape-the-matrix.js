@@ -5,25 +5,24 @@
  * @return {number[][]}
  */
 const matrixReshape = function (mat, r, c) {
-  if (mat.length * mat[0].length != r * c) {
+  if (mat.length * mat[0].length !== r * c) {
     return mat;
   }
 
-  const flatten = mat.reduce((prev, cur) => {
-    prev.push(...cur);
-    return prev;
-  }, []);
-
-  const answer = [];
+  const result = [];
   let temp = [];
-  for (let i = 0; i < flatten.length; i++) {
-    if (i > 0 && i % c === 0) {
-      answer.push(temp);
-      temp = [];
+  let k = 0;
+
+  for (let i = 0; i < mat.length; i++) {
+    for (let j = 0; j < mat[0].length; j++) {
+      if (k > 0 && k % c === 0) {
+        result.push(temp);
+        temp = [];
+      }
+      temp.push(mat[i][j]);
+      k++;
     }
-    temp.push(flatten[i]);
-      
   }
-  answer.push(temp);
-  return answer;
+  result.push(temp);
+  return result;
 };
