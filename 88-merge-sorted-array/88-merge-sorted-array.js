@@ -6,32 +6,9 @@
  * @return {void} Do not return anything, modify nums1 in-place instead.
  */
 const merge = function (nums1, m, nums2, n) {
-  const arr = Array(m + n);
-  let i = 0;
-  let j = 0;
-  let ptr = 0;
-  while (ptr < arr.length) {
-    if (m > 0 && n > 0) {
-      if (nums1[i] >= nums2[j]) {
-        arr[ptr++] = nums2[j];
-        j += 1;
-        n -= 1;
-      } else {
-        arr[ptr++] = nums1[i];
-        i += 1;
-        m -= 1;
-      }
-    } else if (m > 0) {
-      arr[ptr++] = nums1[i];
-      i += 1;
-      m -= 1;
-    } else {
-      arr[ptr++] = nums2[j];
-      j += 1;
-      n -= 1;
-    }
+  for (let i = 0; i < n; i++) {
+    nums1[m + i] = nums2[i];
   }
-  for (let i = 0; i < nums1.length; i++) {
-    nums1[i] = arr[i];
-  }
+
+  nums1.sort((a, b) => a - b);
 };
