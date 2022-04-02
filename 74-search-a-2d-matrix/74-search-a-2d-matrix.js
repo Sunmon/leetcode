@@ -2,26 +2,29 @@
  * @param {number[][]} matrix
  * @param {number} target
  * @return {boolean}
+
  */
 const searchMatrix = function (matrix, target) {
-  const m = matrix.length;
-  if (m === 0) return false;
-  const n = matrix[0].length;
+  const row = binaryRowSearch(matrix, target, 0, matrix.length);
+  const col = binaryColSearch(matrix[row], target, 0, matrix[row].length);
+  return matrix[row][col] === target;
+};
 
-  // binary search
-  let left = 0;
-  let right = m * n - 1;
-  let pivot;
-  let value;
-  while (left <= right) {
-    pivot = parseInt((left + right) / 2);
-    value = matrix[parseInt(pivot / n)][pivot % n];
-    if (target === value) return true;
-    if (target > value) {
-      left = pivot + 1;
-    } else {
-      right = pivot - 1;
-    }
-  }
-  return false;
+// [begin, end) 탐색
+const binaryRowSearch = function (matrix, target, begin, end) {
+  if (begin >= end - 1) return begin;
+  const mid = parseInt((begin + end) / 2);
+  if (matrix[mid][0] < target) return binaryRowSearch(matrix, target, mid, end);
+  if (matrix[mid][0] > target)
+    return binaryRowSearch(matrix, target, begin, mid);
+  return mid;
+};
+
+const binaryColSearch = function (matrix, target, begin, end) {
+  if (begin >= end - 1) return begin;
+  const mid = parseInt((begin + end) / 2);
+  if (matrix[mid] < target)
+    return binaryColSearch(matrix, target, mid + 1, end);
+  if (matrix[mid] > target) return binaryColSearch(matrix, target, begin, mid);
+  return mid;
 };
