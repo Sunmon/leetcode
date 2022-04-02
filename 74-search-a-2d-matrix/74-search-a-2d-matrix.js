@@ -4,13 +4,24 @@
  * @return {boolean}
  */
 const searchMatrix = function (matrix, target) {
-  let row = matrix.length;
-  while (--row >= 0) {
-    if (matrix[row][0] <= target) break;
-  }
-  if (row < 0) return false;
-  for (let i = 0; i < matrix[row].length; i++) {
-    if (target === matrix[row][i]) return true;
+  const m = matrix.length;
+  if (m === 0) return false;
+  const n = matrix[0].length;
+
+  // binary search
+  let left = 0;
+  let right = m * n - 1;
+  let pivot;
+  let value;
+  while (left <= right) {
+    pivot = parseInt((left + right) / 2);
+    value = matrix[parseInt(pivot / n)][pivot % n];
+    if (target === value) return true;
+    if (target > value) {
+      left = pivot + 1;
+    } else {
+      right = pivot - 1;
+    }
   }
   return false;
 };
