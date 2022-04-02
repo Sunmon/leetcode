@@ -4,11 +4,13 @@
  * @return {boolean}
  */
 const searchMatrix = function (matrix, target) {
-  const [m, n] = [matrix.length, matrix[0].length];
-  for (let i = 0; i < m; i++) {
-    for (let j = 0; j < n; j++) {
-      if (matrix[i][j] === target) return true;
-    }
+  let row = matrix.length;
+  while (--row >= 0) {
+    if (matrix[row][0] <= target) break;
+  }
+  if (row < 0) return false;
+  for (let i = 0; i < matrix[row].length; i++) {
+    if (target === matrix[row][i]) return true;
   }
   return false;
 };
