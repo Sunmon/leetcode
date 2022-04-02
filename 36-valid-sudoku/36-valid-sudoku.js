@@ -3,20 +3,20 @@
  * @return {boolean}
  */
 const isValidSudoku = function (board) {
-  const rows = Array.from(Array(9), () => Array(9).fill(false));
-  const cols = Array.from(Array(9), () => Array(9).fill(false));
-  const cells = Array.from(Array(9), () => Array(9).fill(false));
+  const rows = Array.from(Array(9), () => new Set());
+  const cols = Array.from(Array(9), () => new Set());
+  const cells = Array.from(Array(9), () => new Set());
 
   for (let i = 0; i < 9; i++) {
     for (let j = 0; j < 9; j++) {
-      const num = board[i][j];
-      if (isNaN(num)) continue;
-      if (rows[i][+num - 1]) return false;
-      if (cols[j][+num - 1]) return false;
-      if (cells[parseInt(i / 3) * 3 + parseInt(j / 3)][+num - 1]) return false;
-      rows[i][+num - 1] = true;
-      cols[j][+num - 1] = true;
-      cells[parseInt(i / 3) * 3 + parseInt(j / 3)][+num - 1] = true;
+      if (isNaN(board[i][j])) continue;
+      const num = +board[i][j] - 1;
+      if (rows[i].has(num)) return false;
+      if (cols[j].has(num)) return false;
+      if (cells[parseInt(i / 3) * 3 + parseInt(j / 3)].has(num)) return false;
+      rows[i].add(num);
+      cols[j].add(num);
+      cells[parseInt(i / 3) * 3 + parseInt(j / 3)].add(num);
     }
   }
 
