@@ -4,21 +4,15 @@
  * @return {boolean}
  */
 const canConstruct = function (ransomNote, magazine) {
-  ransomNote = [...ransomNote].sort((a, b) => a.localeCompare(b));
-  magazine = [...magazine].sort((a, b) => a.localeCompare(b));
-  let i = 0;
-  let j = 0;
-  const [n, m] = [ransomNote.length, magazine.length];
-  while (i < n && j < m) {
-    if (ransomNote[i] === magazine[j]) {
-      ++i;
-      ++j;
-    } else if (ransomNote[i] > magazine[j]) {
-      ++j;
-    } else {
-      return false;
-    }
+  const queue = Array(26).fill(0);
+  for (let i = 0; i < magazine.length; i++) {
+    queue[magazine.charCodeAt(i) - 97] += 1;
+  }
+  for (let i = 0; i < ransomNote.length; i++) {
+    const pivot = ransomNote.charCodeAt(i) - 97;
+    queue[pivot] -= 1;
+    if (queue[pivot] < 0) return false;
   }
 
-  return i === n;
+  return true;
 };
