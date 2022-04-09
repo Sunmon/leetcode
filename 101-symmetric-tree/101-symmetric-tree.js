@@ -11,7 +11,7 @@
  * @return {boolean}
  */
 const isSymmetric = function (root) {
-  return check(root?.left, root?.right);
+  return check(root.left, root.right);
 };
 
 const check = function (left, right) {
