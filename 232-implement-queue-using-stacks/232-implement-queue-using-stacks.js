@@ -1,6 +1,6 @@
 const MyQueue = function () {
   this.list = [];
-  this.ptr = 0;
+  // this.ptr = 0;
 };
 
 /**
@@ -15,21 +15,24 @@ MyQueue.prototype.push = function (x) {
  * @return {number}
  */
 MyQueue.prototype.pop = function () {
-  return this.list[this.ptr++];
+  // return this.list[this.ptr++];
+    return this.list.shift();
 };
 
 /**
  * @return {number}
  */
 MyQueue.prototype.peek = function () {
-  return this.list[this.ptr];
+  // return this.list[this.ptr];
+    return this.list[0];
 };
 
 /**
  * @return {boolean}
  */
 MyQueue.prototype.empty = function () {
-  return this.ptr === this.list.length;
+    return this.list.length === 0;
+  // return this.ptr === this.list.length;
 };
 
 /**
