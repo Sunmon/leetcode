@@ -21,14 +21,16 @@ const solution = function (isBadVersion) {
    */
   return function (n) {
     let [begin, end] = [1, n];
+    let middle = parseInt((begin + end) / 2);
     while (begin < end) {
-			const middle = parseInt((begin + end) / 2);
       if (isBadVersion(middle) === true) {
         end = middle;
+        middle = parseInt((begin + end) / 2);
       } else {
         begin = middle + 1;
+        middle = parseInt((begin + end) / 2);
       }
     }
     return begin;
   };
-}; 
+};
