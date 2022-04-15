@@ -3,18 +3,18 @@
  * @return {number[][]}
  */
 const generate = function (numRows) {
-  const answer = [[1]];
-  for (let i = 1; i < numRows; i++) {
-    const temp = [];
-    for (let j = 0; j <= i; j++) {
-      if (j === 0 || j === i) {
-        temp.push(1);
+  const answer = [];
+  for (let row = 1; row <= numRows; row++) {
+    const line = [];
+    for (let col = 0; col < row; col++) {
+      if (col === 0 || col === row - 1) {
+        line.push(1);
       } else {
-        temp.push(answer[i - 1][j] + answer[i - 1][j - 1]);
+        line.push(answer[row - 2][col - 1] + answer[row - 2][col]);
       }
     }
-    answer.push(temp);
+    answer.push(line);
   }
+
   return answer;
 };
-
