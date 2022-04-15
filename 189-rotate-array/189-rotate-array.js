@@ -4,14 +4,23 @@
  * @return {void} Do not return anything, modify nums in-place instead.
  */
 const rotate = function (nums, k) {
+  let cur = 0;
   const len = nums.length;
-  k %= len;
-  const copied = [...nums];
-  let [i, j] = [k, 0];
-  while (true) {
-    nums[i++] = copied[j++];
-    if (i === len) i = 0;
-    if (j === len) break;
+  let counter = 0;
+  while (counter < len) {
+    const begin = cur;
+    let cache = nums[begin];
+    while (true) {
+      const next = (k + cur) % len;
+      const temp = nums[next];
+      nums[next] = cache;
+      cur = next;
+      counter++;
+      cache = temp;
+      if (cur === begin) break;
+    }
+    cur++;
   }
-};
 
+  return nums;
+};
