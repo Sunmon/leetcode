@@ -22,7 +22,6 @@ const removeNthFromEnd = function (head, n) {
     cur = cur.next;
   }
 
-      console.log(cur?.val, prev?.val)
   prev.next = prev.next.next;
   return dummy.next;
 };
