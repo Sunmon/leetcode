@@ -4,21 +4,26 @@
  */
 const isValid = function (s) {
   const stack = [];
-  let counter = -1;
-  for (const i of s) {
-    if (i === '(' || i === '{' || i === '[') {
-      stack.push(i);
-      ++counter;
-    } else if (
-      (i === ')' && stack[counter] === '(') ||
-      (i === '}' && stack[counter] === '{') ||
-      (i === ']' && stack[counter] === '[')
-    ) {
+  let p = 0;
+  for (let i = 0; i < s.length; i++) {
+    if (s[i] === '(' || s[i] === '{' || s[i] === '[') {
+      stack.push(s[i]);
+      p++;
+    } else if (p < 0) {
+      return false;
+    } else if (s[i] === ')' && stack[p - 1] === '(') {
       stack.pop();
-      --counter;
+      p--;
+    } else if (s[i] === '}' && stack[p - 1] === '{') {
+      stack.pop();
+      p--;
+    } else if (s[i] === ']' && stack[p - 1] === '[') {
+      stack.pop();
+      p--;
     } else {
       return false;
     }
   }
-  return counter === -1;
+
+  return stack.length === 0;
 };
