@@ -10,16 +10,17 @@
  * @return {ListNode}
  */
 const deleteDuplicates = function (head) {
-  const origin = head;
-  let cur = origin;
-  while (cur !== null) {
-    let { next } = cur;
-    while (next !== null && next.val === cur.val) {
-      next = next.next;
+  const dummy = new ListNode(-999, head);
+  let prev = dummy;
+  while (prev) {
+    let cur = prev.next;
+    while (cur?.val === prev.val) {
+      cur = cur?.next;
     }
-    cur.next = next;
-    cur = next;
+
+    prev.next = cur;
+    prev = cur;
   }
 
-  return origin;
+  return dummy.next;
 };
