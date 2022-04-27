@@ -4,23 +4,9 @@
  * @return {void} Do not return anything, modify nums in-place instead.
  */
 const rotate = function (nums, k) {
-  let cur = 0;
-  const len = nums.length;
-  let counter = 0;
-  while (counter < len) {
-    const begin = cur;
-    let cache = nums[begin];
-    while (true) {
-      const next = (k + cur) % len;
-      const temp = nums[next];
-      nums[next] = cache;
-      cur = next;
-      counter++;
-      cache = temp;
-      if (cur === begin) break;
-    }
-    cur++;
+  let arr = nums.reverse();
+  arr = [...arr.slice(0, k % nums.length).reverse(), ...arr.slice(k % nums.length ).reverse()];
+  for (let i = 0; i < nums.length; i++) {
+    nums[i] = arr[i];
   }
-
-  return nums;
 };
