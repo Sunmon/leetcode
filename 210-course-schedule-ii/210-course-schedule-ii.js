@@ -4,42 +4,35 @@
  * @return {number[]}
  */
 
-const [WHITE, GRAY, BLACK] = [0, 1, 2];
 let adj = [[]];
-let colors = [];
-let topologicalOrder = [];
-let valid = true;
-
 const findOrder = function (numCourses, prerequisites) {
   adj = Array.from(Array(numCourses), () => []);
-  colors = Array(numCourses).fill(WHITE);
-  topologicalOrder = [];
-  valid = true;
+  const indegrees = Array(numCourses).fill(0);
   for (const [a, b] of prerequisites) {
     adj[b].push(a);
+    indegrees[a]++;
   }
-  for (let i = 0; i < numCourses; i++) {
-    if (colors[i] === WHITE) {
-      dfs(i);
-    }
-  }
-
-  return valid ? topologicalOrder.reverse() : [];
+  return topologyOrder(indegrees);
 };
 
-// Returns false if there is a cycle.
-const dfs = function (node) {
-  if (!valid) return;
-  colors[node] = GRAY;
-  for (const next of adj[node]) {
-    if (colors[next] === GRAY) {
-      valid = false;
-      return;
-    }
-    if (colors[next] === WHITE) {
-      dfs(next);
-    }
+// Returns ordered array.
+const topologyOrder = function (indegrees) {
+  const queue = [];
+  const order = [];
+  let ptr = 0;
+
+  for (let i = 0; i < indegrees.length; i++) {
+    if (indegrees[i] === 0) queue.push(i);
   }
-  topologicalOrder.push(node);
-  colors[node] = BLACK;
+
+  while (ptr < queue.length) {
+    const cur = queue[ptr++];
+    for (let i = 0; i < adj[cur].length; i++) {
+      if (--indegrees[adj[cur][i]] == 0) queue.push(adj[cur][i]);
+    }
+    order.push(cur);
+  }
+
+  if (ptr !== indegrees.length) return [];
+  return order;
 };
