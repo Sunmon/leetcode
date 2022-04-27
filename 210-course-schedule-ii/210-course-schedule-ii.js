@@ -8,18 +8,19 @@ const [WHITE, GRAY, BLACK] = [0, 1, 2];
 let adj = [[]];
 let colors = [];
 let topologicalOrder = [];
+let valid = true;
 
 const findOrder = function (numCourses, prerequisites) {
   adj = Array.from(Array(numCourses), () => []);
   colors = Array(numCourses).fill(WHITE);
   topologicalOrder = [];
+  valid = true;
   for (const [a, b] of prerequisites) {
     adj[b].push(a);
   }
-  let valid = true;
   for (let i = 0; i < numCourses; i++) {
-    if (valid && colors[i] === WHITE) {
-      valid = valid && dfs(i);
+    if (colors[i] === WHITE) {
+      dfs(i);
     }
   }
 
@@ -28,18 +29,17 @@ const findOrder = function (numCourses, prerequisites) {
 
 // Returns false if there is a cycle.
 const dfs = function (node) {
-  let valid = true;
+  if (!valid) return;
   colors[node] = GRAY;
   for (const next of adj[node]) {
     if (colors[next] === GRAY) {
-      return false;
+      valid = false;
+      return;
     }
-    if (valid && colors[next] === WHITE) {
-      valid = valid && dfs(next);
+    if (colors[next] === WHITE) {
+      dfs(next);
     }
   }
-  if (!valid) return false;
   topologicalOrder.push(node);
   colors[node] = BLACK;
-  return true;
 };
