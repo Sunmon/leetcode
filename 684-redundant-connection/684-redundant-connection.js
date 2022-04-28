@@ -2,28 +2,33 @@
  * @param {number[][]} edges
  * @return {number[]}
  */
-
-let alreadyConnected = [[]];
-let visited = [];
+let dsu = []; // dsu[i] : is the number of nodes if (dsu[i] < 0). else, value is the number of parent node.
+let cycle = [];
 const findRedundantConnection = function (edges) {
-  alreadyConnected = Array.from(Array(edges.length + 1), () => new Set());
+  dsu = Array(edges.length + 1).fill(-1);
+  cycle = [];
   for (const edge of edges) {
-    visited = Array(edges.length + 1).fill(false);
-    if (isAlreadyConnected(edge[0], edge[1])) return edge;
-    alreadyConnected[edge[0]].add(edge[1]);
-    alreadyConnected[edge[1]].add(edge[0]);
+    union(edge);
   }
-  return [];
+  return cycle.pop();
 };
 
-// returns true if already connected x->y
-const isAlreadyConnected = function (x, y) {
-  if (x === y) return true;
-  if (alreadyConnected[x].has(y)) return true;
-  visited[x] = true;
-  const values = [...alreadyConnected[x].values()];
-  for (let i = 0; i < values.length; i++) {
-    if (!visited[values[i]] && isAlreadyConnected(values[i], y)) return true;
+const find = function (u) {
+  if (dsu[u] < 0) return u;
+  dsu[u] = find(dsu[u]);
+  return dsu[u];
+};
+
+const union = function ([u, v]) {
+  const [x, y] = [find(u), find(v)];
+  if (x === y) {
+    // cycle
+    cycle.push([u, v]);
+  } else if (dsu[x] < dsu[y]) {
+    dsu[x] += dsu[y];
+    dsu[y] = x;
+  } else {
+    dsu[y] += dsu[x];
+    dsu[x] = y;
   }
-  return false;
 };
