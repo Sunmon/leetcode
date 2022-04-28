@@ -3,39 +3,56 @@
  * @return {number}
  */
 
-let visited = [[]];
-let m;
-let n = 0;
+let parent = [];
+let rank = [];
+let count = 0;
+// let visited = [[]];
 const dir = [
   [-1, 0],
   [1, 0],
-  [0, -1],
   [0, 1],
+  [0, -1],
 ];
 const numIslands = function (grid) {
-  m = grid.length;
-  n = grid[0].length;
-  visited = Array.from(Array(m), () => Array(n).fill(false));
+  const [m, n] = [grid.length, grid[0].length];
+  count = 0;
 
-  let counter = 0;
+  // parent = Array.from(Array(m), () => Array(n).fill([-1, -1]));
+  parent = [...Array(m * n)].map((v, i) => {
+    if (grid[parseInt(i / n)][i % n] === '1') ++count;
+    return i;
+  });
+  rank = Array(m * n).fill(1);
+  // visited = Array.from(Array(m), () => Array(n).fill(false));
   for (let i = 0; i < m; i++) {
     for (let j = 0; j < n; j++) {
-      if (!visited[i][j] && grid[i][j] === '1') {
-        visited[i][j] = true;
-        dfs(i, j, grid);
-        counter++;
+      if (grid[i][j] === '1') {
+        // grid[i][j] = 0;
+        for (let k = 0; k < 4; k++) {
+          const [nx, ny] = [i + dir[k][0], j + dir[k][1]];
+          if (grid[nx]?.[ny] === '1') union(i * n + j, nx * n + ny);
+        }
       }
     }
   }
-  return counter;
+
+  return count;
 };
 
-const dfs = function (x, y, grid) {
-  for (let i = 0; i < dir.length; i++) {
-    const [nx, ny] = [x + dir[i][0], y + dir[i][1]];
-    if (visited[nx]?.[ny] !== false) continue;
-    if (grid[nx]?.[ny] !== '1') continue;
-    visited[nx][ny] = true;
-    dfs(nx, ny, grid);
+const find = function (u) {
+  if (parent[u] !== u) parent[u] = find(parent[u]);
+  return parent[u];
+};
+
+// return new set's root
+const union = function (x, y) {
+  const [u, v] = [find(x), find(y)];
+  if (parent[u] !== parent[v]) {
+    if (rank[u] < rank[v]) return union(y, x);
+    if (rank[u] === rank[v]) rank[u]++;
+    parent[v] = u;
+    --count;
   }
+
+  return u;
 };
