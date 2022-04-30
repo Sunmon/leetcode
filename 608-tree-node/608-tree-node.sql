@@ -1,8 +1,7 @@
-SELECT DISTINCT a.id, CASE 
-    WHEN a.p_id IS NULL THEN 'Root' 
-    WHEN b.id IS NULL THEN 'Leaf'
-    ELSE 'Inner' 
-        END AS Type
-FROM tree a
-LEFT JOIN tree b ON a.id = b.p_id
-ORDER BY a.id
+select id,
+    case when p_id is null then 'Root'
+         when id in (select p_id from tree) then 'Inner'
+         else 'Leaf'
+    end as Type
+from tree
+order by id
