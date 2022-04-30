@@ -12,14 +12,10 @@
 const middleNode = function (head) {
   let fast = head;
   let slow = head;
-  let counter = 0;
-  while (fast?.val) {
-    if (counter % 2 === 1) {
-      slow = slow.next;
-    }
-    fast = fast.next;
-    counter++;
-  }
 
+  while (slow?.next && fast?.next) {
+    fast = fast.next.next;
+    slow = slow.next;
+  }
   return slow;
 };
