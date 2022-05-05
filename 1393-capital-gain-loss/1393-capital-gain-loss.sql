@@ -1,8 +1,5 @@
 SELECT stock_name, SUM(
-    CASE
-        WHEN operation = 'Buy' THEN -price
-        ELSE price
-    END
+    IF(operation='Buy', -price, price)
 ) AS capital_gain_loss
 FROM Stocks
 GROUP BY stock_name
