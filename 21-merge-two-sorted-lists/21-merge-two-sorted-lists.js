@@ -11,32 +11,32 @@
  * @return {ListNode}
  */
 const mergeTwoLists = function (list1, list2) {
-  let i = list1;
-  let j = list2;
-  const header = { next: null };
-  let cur = header;
-
-  while (i !== null && j !== null) {
-    if (i.val > j.val) {
-      cur.next = j;
-      j = j.next;
+  const dummy = new ListNode(0);
+  let cur = dummy;
+  let left = list1;
+  let right = list2;
+  while (left !== null && right !== null) {
+    if (left.val > right.val) {
+      cur.next = right;
+      right = right.next;
     } else {
-      cur.next = i;
-      i = i.next;
+      cur.next = left;
+      left = left.next;
     }
     cur = cur.next;
   }
 
-  while (i !== null) {
-    cur.next = i;
-    i = i.next;
-    cur = cur.next;
-  }
-  while (j !== null) {
-    cur.next = j;
-    j = j.next;
+  while (left) {
+    cur.next = left;
+    left = left.next;
     cur = cur.next;
   }
 
-  return header.next;
+  while (right) {
+    cur.next = right;
+    right = right.next;
+    cur = cur.next;
+  }
+
+  return dummy.next;
 };
