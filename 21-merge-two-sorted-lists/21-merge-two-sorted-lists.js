@@ -15,7 +15,7 @@ const mergeTwoLists = function (list1, list2) {
   let cur = dummy;
   let left = list1;
   let right = list2;
-  while (left !== null && right !== null) {
+  while (left && right) {
     if (left.val > right.val) {
       cur.next = right;
       right = right.next;
@@ -26,17 +26,7 @@ const mergeTwoLists = function (list1, list2) {
     cur = cur.next;
   }
 
-  while (left) {
-    cur.next = left;
-    left = left.next;
-    cur = cur.next;
-  }
-
-  while (right) {
-    cur.next = right;
-    right = right.next;
-    cur = cur.next;
-  }
+  cur.next = left ?? right;
 
   return dummy.next;
 };
