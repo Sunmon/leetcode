@@ -12,22 +12,15 @@
  * @param {Node} root
  * @return {Node}
  */
-
-const levels = [];
 const connect = function (root) {
-  getLevels(root, 0);
-  for (let i = 0; i < levels.length; i++) {
-    for (let j = 0; j < levels[i].length - 1; j++) {
-      levels[i][j].next = levels[i][j + 1];
-    }
-  }
+  link(root?.left, root?.right);
   return root;
 };
 
-const getLevels = function (root, level) {
-  if (!root) return;
-  if (!Array.isArray(levels[level])) levels[level] = [];
-  levels[level].push(root);
-  getLevels(root.left, level + 1);
-  getLevels(root.right, level + 1);
+const link = function (left, right) {
+  if (!left) return;
+  left.next = right;
+  link(left.left, left.right);
+  link(left.right, right.left);
+  link(right.left, right.right);
 };
