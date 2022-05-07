@@ -2,35 +2,24 @@
  * @param {number[]} nums
  * @return {number[][]}
  */
-const permute = function (nums) {
-    nums = nums.sort((a,b) => a-b);
-  const result = [[...nums]];
-  while (nextPermutation(nums)) {
-    result.push([...nums]);
-  }
 
+let result = [];
+const permute = function (nums) {
+  result = [];
+  permutation(nums, 0);
   return result;
 };
 
-const nextPermutation = function (nums) {
-  let i = nums.length;
-  while (--i > 0) {
-    if (nums[i - 1] < nums[i]) break;
-  }
-  if (i === 0) return false;
-  let j = nums.length;
-  while (--j >= i) {
-    if (nums[i - 1] < nums[j]) break;
+// select i'th number and save permutation
+function permutation(nums, i) {
+  if (i === nums.length - 1) {
+    result.push([...nums]);
+    return;
   }
 
-  [nums[i - 1], nums[j]] = [nums[j], nums[i - 1]];
-
-  // reverse
-  j = nums.length - 1;
-  while (i < j) {
+  for (let j = i; j < nums.length; j++) {
     [nums[i], nums[j]] = [nums[j], nums[i]];
-    i++;
-    j--;
+    permutation(nums, i + 1);
+    [nums[i], nums[j]] = [nums[j], nums[i]];
   }
-  return true;
-};
+}
