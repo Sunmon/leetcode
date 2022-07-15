@@ -2,20 +2,17 @@
  * @param {string} s
  * @return {number}
  */
-const lengthOfLongestSubstring = function (s) {
-  const index = Array(26).fill(-1);
-  let answer = 0;
+var lengthOfLongestSubstring = function(s) {
+  const m = new Map();
+  let longest = 0;
   let left = 0;
-  let right = 0;
-  for (right; right < s.length; right++) {
-    const i = s.charCodeAt(right) - 97;
-    if (index[i] >= left) {
-      answer = Math.max(answer, right - left);
-      left = index[i] + 1;
-      index[i] = right;
-    } else {
-      index[i] = right;
+  for(let i = 0; i<s.length; i++) {
+    if (m.has(s[i])) {
+      left = Math.max(left, m.get(s[i]) + 1);
     }
+    longest = Math.max(longest, i - left + 1);
+    m.set(s[i], i);
   }
-  return Math.max(right - left, answer);
+  
+  return longest;
 };
